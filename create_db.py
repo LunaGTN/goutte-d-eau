@@ -10,11 +10,11 @@ def create_table_meteo():
             cursor = conn.cursor()
             request = """
             CREATE TABLE IF NOT EXISTS Meteo(
-                date_utc DATE PRIMARY KEY,
+                dh_utc DATE PRIMARY KEY,
                 temperature FLOAT,
                 pression FLOAT,
                 humidite INT,
-                point_de_rose FLOAT,
+                point_de_rosee FLOAT,
                 visibilite INT,
                 vent_moyen FLOAT,
                 vent_rafales FLOAT,
@@ -27,11 +27,12 @@ def create_table_meteo():
     except Exception as e:
         print(f"Une erreur est survenue lors de la création de la table: {e}")
 
-def insert_data(request, csv_ontent):
+def insert_data(request, content):
     try:
         with connexion() as conn:
             cursor = conn.cursor()
-            cursor.executemany(request, csv_ontent)
+            rows = [row[1:] for row in content]
+            cursor.executemany(request, rows)
             conn.commit()
     except Exception as e:
         print(f"Une erreur est survenue lors de l'insertion dans la table: {e}")
@@ -42,13 +43,17 @@ def get_csv_content(file_path:str):
     content =  csv.reader(file)
     return content
 
+
 def main():
     file_path = "data_clean.csv"
     content = get_csv_content(file_path)
-    col = tuple(next(content)[1:])
+    header = next(content)
+    col = header[1:]
+    columns_sql = ", ".join(col)
     create_table_meteo()
-    request = f"""INSERT INTO meteo {col}, VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+    request = f"""INSERT INTO meteo ({columns_sql}) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)"""
     insert_data(request, content)
+
     
 
 if __name__ == "__main__":
