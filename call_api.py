@@ -1,15 +1,17 @@
 from dotenv import load_dotenv
 import os
 import requests
-from datetime import datetime
+from fastapi import FastAPI
+from main import predict_rain_with_date
 
+#API_METEO
 BASE_URL = "https://www.infoclimat.fr/opendata/"
 
 load_dotenv()
 KEY = os.getenv("API_KEY")
 
-def get_data_from_api_now():
-    date = str(datetime.now())[:10]
+def get_data_from_api_now(date):
+    #date = str(datetime.now())[:10]
     params = {
     "version": 2,
     "method": "get",
@@ -25,5 +27,15 @@ def get_data_from_api_now():
     else:
         return "Erreur :", response.status_code
 
+
+#MON_API
+app = FastAPI()
+@app.get("/")
+async def root():
+    return {"message": "API qui renvoie une probabilité de pluie"}
+
+@app.post("/predict/")
+async def predict_rain(date):
+    return {"rain_probability": predict_rain_with_date(date)}
 
 
