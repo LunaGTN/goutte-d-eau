@@ -18,9 +18,19 @@ scaler.fit(X_train)
 X_train_scaled = scaler.transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-def fit_model(model):
-    model.fit(X_train_scaled, y_train)
-    y_pred = model.predict(X_test_scaled)
-    return y_test, y_pred
+def scaled_data_to_predict(data):
+    scaler = StandardScaler()
+    scaler.fit(data)
+    return scaler.transform(data)
 
+
+def fit_model(model, data_to_predict_scaled):
+    model.fit(X_train_scaled, y_train)
+    y_pred = model.predict_proba(data_to_predict_scaled)
+    return y_pred
+
+def main_model(model, data_to_pred):
+    data_scaled = scaled_data_to_predict(data_to_pred)
+    prediction = fit_model(model, data_scaled)
+    return prediction
 
