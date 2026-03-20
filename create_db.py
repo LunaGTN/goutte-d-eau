@@ -10,7 +10,7 @@ def create_table_meteo():
             cursor = conn.cursor()
             request = """
             CREATE TABLE IF NOT EXISTS Meteo(
-                dh_utc DATE PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 temperature FLOAT,
                 pression FLOAT,
                 humidite INT,
@@ -19,6 +19,8 @@ def create_table_meteo():
                 vent_moyen FLOAT,
                 vent_rafales FLOAT,
                 pluie_3h FLOAT,
+                mois INT,
+                jour INT,
                 pluie INT
             )
             """
@@ -51,7 +53,7 @@ def main():
     col = header[1:]
     columns_sql = ", ".join(col)
     create_table_meteo()
-    request = f"""INSERT INTO meteo ({columns_sql}) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)"""
+    request = f"""INSERT INTO meteo ({columns_sql}) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)"""
     insert_data(request, content)
 
     
