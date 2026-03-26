@@ -30,7 +30,7 @@ def get_data_from_api_now(date):
         return "Erreur :", response.status_code
 
 
-model = RandomForestClassifier()
+model = RandomForestClassifier(max_iter=1000)
 
 def predict_rain_with_date(date):
     date = str(datetime.now())[:10]
@@ -39,3 +39,7 @@ def predict_rain_with_date(date):
     line = df.tail(1)
     rain_probability =  main_model(model, line)[0][1]
     return rain_probability
+
+if __name__ == "__main__":
+    line = predict_rain_with_date("2026-03-19")
+    print(line)

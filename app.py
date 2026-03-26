@@ -11,7 +11,9 @@ if st.button("Faire la prédiction"):
     response = requests.get(f'http://127.0.0.1:8000/predict/?date={date}')
     if response.status_code == 200:
         data = response.json()
-        st.write(data)
+        proba = data.get("rain_probability")
+        st.write(f"Le probabilité de pluie pour aujourd'hui (le {str(date)[:10]}) est de {proba}% !")
+        
     else:    
         print(f"Request failed with status code {response.status_code}")   
         
