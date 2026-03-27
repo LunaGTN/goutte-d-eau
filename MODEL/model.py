@@ -22,7 +22,7 @@ def train_model_and_scaler():
     X_train_scaled = scaler.transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    model = RandomForestClassifier()
+    model = RandomForestClassifier(class_weight = 'balanced', min_samples_split=10)
     model.fit(X_train_scaled, y_train)
 
     with open('MODEL/scaler.pkl', 'wb') as f:
