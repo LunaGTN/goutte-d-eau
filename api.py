@@ -1,10 +1,8 @@
-
 from fastapi import FastAPI
 from main import predict_rain_with_date
 
 
 
-#MON_API
 app = FastAPI()
 @app.get("/")
 async def root():

@@ -63,9 +63,8 @@ def main(path_source):
     request = build_db(content)
     insert_data(request, content)
     return df
-
     
 
 if __name__ == "__main__":
-    df = main("data_from_website.csv")
-    print(df.head(1))
+    main("data_from_website.csv")
+    

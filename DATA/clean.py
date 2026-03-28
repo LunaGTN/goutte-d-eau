@@ -4,17 +4,13 @@ from io import StringIO
 col_to_drop = ["station_id","pression_variation_3h", "pluie_3h", "pluie_6h", "pluie_12h", "ensoleillement", "vent_rafales",  "pluie_24h","temperature_min", "temperature_max", "source", "temperature_sol","radiations","neige_au_sol", "nebulosite", "vent_direction", "vent_rafales_10min", "temps_omm","raw_msg"]
 
 def file_to_dataframe(file_path:str):
-    print(file_path)
-    df = pd.read_csv("DATA/data_from_website.csv", sep=";", comment="#")
-    print("toto")
-    df.head(1)
+    df = pd.read_csv(file_path, sep=";", comment="#")
     df = df.loc[df["station_id"] != "string"]
     return df.drop(columns=col_to_drop)
 
 def data_to_dataframe(raw_data:str):
     df = pd.read_csv(StringIO(raw_data), sep=";", comment="#")
     df = df.iloc[1:].reset_index(drop=True)
-    print(df.head())
     df = df[df["station_id"] != "string"]
     return df.drop(columns=col_to_drop)
 
@@ -57,4 +53,3 @@ def export_df_to_csv_file(df, filename):
 if __name__ == "__main__":
     df = cleaning_csv("data_from_website.csv")
     export_df_to_csv_file(df, "DATA/data_clean")
-    print("expo")
