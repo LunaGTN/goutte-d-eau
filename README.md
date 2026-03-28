@@ -24,3 +24,5 @@ Une fois le modèle entraîné, les prédictions sont faites depuis l'interface 
 4. Sur un autre terminal, lancer l'interface graphique: 
 streamlit run app.py
 
+## Autre
+Evaluation du modèle présente dans le fichier MODEL/eval_model.ipynb
